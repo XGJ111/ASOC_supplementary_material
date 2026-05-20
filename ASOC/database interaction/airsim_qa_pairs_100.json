@@ -1,0 +1,402 @@
+[
+  {
+    "instruction": "Please take off and fly directly to the car.",
+    "output": "```python\naw.takeoff()\ntarget = aw.get_position('car')\naw.fly_to(target)\n```\nTakes off, reads the car position, and flies the drone directly to that location."
+  },
+  {
+    "instruction": "Could you fly to tower1 and set yaw 45 degrees?",
+    "output": "```python\ntarget = aw.get_position('tower1')\naw.fly_to(target)\naw.set_yaw(45)\n```\nGets tower1's position, flies there, and then sets the drone yaw to 45 degrees."
+  },
+  {
+    "instruction": "Please move 12 meters forward and 7 meters up.",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 12, pos[1], pos[2] + 7])\n```\nReads the current position and moves the drone 12 meters along positive X and 7 meters upward."
+  },
+  {
+    "instruction": "I'd like you to fly 15 meters right, then land.",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1] + 15, pos[2]])\naw.land()\n```\nMoves the drone 15 meters along positive Y and then lands it."
+  },
+  {
+    "instruction": "Please fly to solarpanels, then continue to crowd.",
+    "output": "```python\np1 = aw.get_position('solarpanels')\np2 = aw.get_position('crowd')\naw.fly_path([p1, p2])\n```\nGets the positions of the solarpanels and crowd, then flies through them in order."
+  },
+  {
+    "instruction": "Could you take off, fly 20 meters forward, and set yaw 90 degrees?",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 20, pos[1], pos[2]])\naw.set_yaw(90)\n```\nTakes off, moves 20 meters forward along X, and sets the yaw to 90 degrees."
+  },
+  {
+    "instruction": "Please fly 25 meters above the car.",
+    "output": "```python\ncar_pos = aw.get_position('car')\naw.fly_to([car_pos[0], car_pos[1], car_pos[2] + 25])\n```\nFinds the car position and flies to a point 25 meters directly above it."
+  },
+  {
+    "instruction": "I'd like you to visit tower1, tower2, tower3, then tower1.",
+    "output": "```python\np1 = aw.get_position('tower1')\np2 = aw.get_position('tower2')\np3 = aw.get_position('tower3')\naw.fly_path([p1, p2, p3, p1])\n```\nBuilds a path through the three towers and returns to tower1 at the end."
+  },
+  {
+    "instruction": "Please fly a 20 by 10 meter rectangle and return to start.",
+    "output": "```python\npos = aw.get_drone_position()\npoints = [\n    [pos[0] + 20, pos[1], pos[2]],\n    [pos[0] + 20, pos[1] + 10, pos[2]],\n    [pos[0], pos[1] + 10, pos[2]],\n    pos\n]\naw.fly_path(points)\n```\nUses the current position as one corner and flies a 20 by 10 meter rectangular path back to the start."
+  },
+  {
+    "instruction": "Could you circle tower1 using an 8 meter square at current altitude?",
+    "output": "```python\ncenter = aw.get_position('tower1')\npos = aw.get_drone_position()\nz = pos[2]\npoints = [\n    [center[0] + 8, center[1] + 8, z],\n    [center[0] + 8, center[1] - 8, z],\n    [center[0] - 8, center[1] - 8, z],\n    [center[0] - 8, center[1] + 8, z],\n    [center[0] + 8, center[1] + 8, z]\n]\naw.fly_path(points)\n```\nCreates a square path around tower1 with 8 meter offsets while keeping the drone's current altitude."
+  },
+  {
+    "instruction": "Please fly to the midpoint between turbine1 and turbine2.",
+    "output": "```python\np1 = aw.get_position('turbine1')\np2 = aw.get_position('turbine2')\nmidpoint = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2, (p1[2] + p2[2]) / 2]\naw.fly_to(midpoint)\n```\nComputes the midpoint between turbine1 and turbine2 and flies the drone there."
+  },
+  {
+    "instruction": "I'd like you to set yaw 270 degrees and fly to turbine2.",
+    "output": "```python\naw.set_yaw(270)\ntarget = aw.get_position('turbine2')\naw.fly_to(target)\n```\nSets the drone's yaw to 270 degrees, then flies directly to turbine2."
+  },
+  {
+    "instruction": "Please descend 6 meters, move 18 meters forward, then land.",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1], pos[2] - 6])\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 18, pos[1], pos[2]])\naw.land()\n```\nDescends 6 meters, then moves 18 meters forward from the new position before landing."
+  },
+  {
+    "instruction": "Could you fly 10 meters left and 12 meters up?",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1] - 10, pos[2] + 12])\n```\nMoves the drone 10 meters along negative Y and 12 meters upward."
+  },
+  {
+    "instruction": "Please take off, visit car, solarpanels, and crowd, then land.",
+    "output": "```python\naw.takeoff()\ncar_pos = aw.get_position('car')\nsolar_pos = aw.get_position('solarpanels')\ncrowd_pos = aw.get_position('crowd')\naw.fly_path([car_pos, solar_pos, crowd_pos])\naw.land()\n```\nTakes off, flies through the car, solarpanels, and crowd positions, then lands."
+  },
+  {
+    "instruction": "I'd like you to fly 30 meters forward, 10 meters right, then 30 meters back.",
+    "output": "```python\npos = aw.get_drone_position()\npoints = [\n    [pos[0] + 30, pos[1], pos[2]],\n    [pos[0] + 30, pos[1] + 10, pos[2]],\n    [pos[0], pos[1] + 10, pos[2]]\n]\naw.fly_path(points)\n```\nCreates a three-segment path: forward 30 meters, right 10 meters, and back 30 meters."
+  },
+  {
+    "instruction": "Please fly 14 meters behind the crowd at its altitude.",
+    "output": "```python\ncrowd_pos = aw.get_position('crowd')\naw.fly_to([crowd_pos[0] - 14, crowd_pos[1], crowd_pos[2]])\n```\nGets the crowd position and flies to a point 14 meters behind it along negative X."
+  },
+  {
+    "instruction": "Could you position 9 meters right of turbine1?",
+    "output": "```python\ntarget = aw.get_position('turbine1')\naw.fly_to([target[0], target[1] + 9, target[2]])\n```\nFinds turbine1 and flies to a point 9 meters to its right along positive Y."
+  },
+  {
+    "instruction": "Please fly 5 meters up, set yaw 135 degrees, then fly to tower3.",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1], pos[2] + 5])\naw.set_yaw(135)\ntarget = aw.get_position('tower3')\naw.fly_to(target)\n```\nRaises the drone 5 meters, sets yaw to 135 degrees, and flies to tower3."
+  },
+  {
+    "instruction": "I'd like you to return to your current position after visiting car.",
+    "output": "```python\nstart = aw.get_drone_position()\ncar_pos = aw.get_position('car')\naw.fly_path([car_pos, start])\n```\nStores the current position, flies to the car, and then returns to the stored start position."
+  },
+  {
+    "instruction": "Please fly 16 meters above solarpanels, then yaw 180 degrees.",
+    "output": "```python\nsolar_pos = aw.get_position('solarpanels')\naw.fly_to([solar_pos[0], solar_pos[1], solar_pos[2] + 16])\naw.set_yaw(180)\n```\nMoves to a point 16 meters above the solarpanels and sets yaw to 180 degrees."
+  },
+  {
+    "instruction": "Could you fly diagonally 22 meters forward and 11 meters right?",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 22, pos[1] + 11, pos[2]])\n```\nMoves diagonally by adding 22 meters to X and 11 meters to Y."
+  },
+  {
+    "instruction": "Please fly a triangle with 12 meter forward and 12 meter right legs.",
+    "output": "```python\npos = aw.get_drone_position()\npoints = [\n    [pos[0] + 12, pos[1], pos[2]],\n    [pos[0], pos[1] + 12, pos[2]],\n    pos\n]\naw.fly_path(points)\n```\nUses the current position and two offset points to fly a triangular route back to start."
+  },
+  {
+    "instruction": "I'd like you to face yaw 0 degrees before flying to turbine1.",
+    "output": "```python\naw.set_yaw(0)\ntarget = aw.get_position('turbine1')\naw.fly_to(target)\n```\nSets the drone yaw to 0 degrees, then flies to turbine1."
+  },
+  {
+    "instruction": "Please fly to tower2, climb 20 meters, then fly to tower3.",
+    "output": "```python\ntower2_pos = aw.get_position('tower2')\naw.fly_to(tower2_pos)\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1], pos[2] + 20])\ntower3_pos = aw.get_position('tower3')\naw.fly_to(tower3_pos)\n```\nFlies to tower2, climbs 20 meters from there, and then flies to tower3."
+  },
+  {
+    "instruction": "Could you fly 40 meters forward at 3 meters higher altitude?",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 40, pos[1], pos[2] + 3])\n```\nMoves 40 meters forward while also increasing altitude by 3 meters."
+  },
+  {
+    "instruction": "Please go 13 meters left, 13 meters forward, then 13 meters right.",
+    "output": "```python\npos = aw.get_drone_position()\npoints = [\n    [pos[0], pos[1] - 13, pos[2]],\n    [pos[0] + 13, pos[1] - 13, pos[2]],\n    [pos[0] + 13, pos[1], pos[2]]\n]\naw.fly_path(points)\n```\nFlies left 13 meters, forward 13 meters, and right 13 meters as a path."
+  },
+  {
+    "instruction": "I'd like you to fly from tower1 to car to turbine2.",
+    "output": "```python\ntower_pos = aw.get_position('tower1')\ncar_pos = aw.get_position('car')\nturbine_pos = aw.get_position('turbine2')\naw.fly_path([tower_pos, car_pos, turbine_pos])\n```\nGets the three object positions and flies through tower1, car, and turbine2 in sequence."
+  },
+  {
+    "instruction": "Please fly 18 meters above tower2 and set yaw 315 degrees.",
+    "output": "```python\ntower_pos = aw.get_position('tower2')\naw.fly_to([tower_pos[0], tower_pos[1], tower_pos[2] + 18])\naw.set_yaw(315)\n```\nFlies to a point 18 meters above tower2 and then sets the yaw to 315 degrees."
+  },
+  {
+    "instruction": "Could you move 8 meters down and 8 meters right?",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1] + 8, pos[2] - 8])\n```\nMoves the drone 8 meters right along Y and 8 meters downward along Z."
+  },
+  {
+    "instruction": "Please fly a 6 meter square around the car at current altitude.",
+    "output": "```python\ncenter = aw.get_position('car')\npos = aw.get_drone_position()\nz = pos[2]\npoints = [\n    [center[0] + 6, center[1] + 6, z],\n    [center[0] + 6, center[1] - 6, z],\n    [center[0] - 6, center[1] - 6, z],\n    [center[0] - 6, center[1] + 6, z],\n    [center[0] + 6, center[1] + 6, z]\n]\naw.fly_path(points)\n```\nBuilds and flies a square path around the car with 6 meter offsets at the drone's current altitude."
+  },
+  {
+    "instruction": "I'd like you to increase yaw by 60 degrees.",
+    "output": "```python\nyaw = aw.get_yaw()\naw.set_yaw(yaw + 60)\n```\nReads the current yaw and sets a new yaw that is 60 degrees greater."
+  },
+  {
+    "instruction": "Please fly to crowd, then 10 meters up and 10 meters back.",
+    "output": "```python\ncrowd_pos = aw.get_position('crowd')\naw.fly_to(crowd_pos)\npos = aw.get_drone_position()\naw.fly_to([pos[0] - 10, pos[1], pos[2] + 10])\n```\nFlies to the crowd, then moves 10 meters backward and 10 meters upward from that location."
+  },
+  {
+    "instruction": "Could you take off, fly to tower3, and land?",
+    "output": "```python\naw.takeoff()\ntarget = aw.get_position('tower3')\naw.fly_to(target)\naw.land()\n```\nTakes off, flies directly to tower3, and lands."
+  },
+  {
+    "instruction": "Please fly 21 meters forward, yaw 225 degrees, then fly 21 meters back.",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 21, pos[1], pos[2]])\naw.set_yaw(225)\npos = aw.get_drone_position()\naw.fly_to([pos[0] - 21, pos[1], pos[2]])\n```\nMoves forward 21 meters, sets yaw to 225 degrees, then moves back 21 meters."
+  },
+  {
+    "instruction": "I'd like you to fly 4 meters above your current position, then to solarpanels.",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1], pos[2] + 4])\ntarget = aw.get_position('solarpanels')\naw.fly_to(target)\n```\nClimbs 4 meters from the current position and then flies to the solarpanels."
+  },
+  {
+    "instruction": "Please fly to turbine1, turbine2, and the midpoint between them.",
+    "output": "```python\np1 = aw.get_position('turbine1')\np2 = aw.get_position('turbine2')\nmidpoint = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2, (p1[2] + p2[2]) / 2]\naw.fly_path([p1, p2, midpoint])\n```\nGets both turbine positions, computes their midpoint, and flies through turbine1, turbine2, and the midpoint."
+  },
+  {
+    "instruction": "Could you fly 19 meters right of tower1, then 19 meters left of tower1?",
+    "output": "```python\ntower_pos = aw.get_position('tower1')\nright_point = [tower_pos[0], tower_pos[1] + 19, tower_pos[2]]\nleft_point = [tower_pos[0], tower_pos[1] - 19, tower_pos[2]]\naw.fly_path([right_point, left_point])\n```\nCreates two points 19 meters to the right and left of tower1 and flies between them."
+  },
+  {
+    "instruction": "Please fly 17 meters forward, 5 meters up, then set yaw 30 degrees.",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 17, pos[1], pos[2] + 5])\naw.set_yaw(30)\n```\nMoves 17 meters forward and 5 meters upward, then sets yaw to 30 degrees."
+  },
+  {
+    "instruction": "I'd like you to fly to car, tower2, solarpanels, then land.",
+    "output": "```python\ncar_pos = aw.get_position('car')\ntower_pos = aw.get_position('tower2')\nsolar_pos = aw.get_position('solarpanels')\naw.fly_path([car_pos, tower_pos, solar_pos])\naw.land()\n```\nFlies through the car, tower2, and solarpanels positions in order, then lands."
+  },
+  {
+    "instruction": "Please set yaw 120 degrees, climb 9 meters, and fly to crowd.",
+    "output": "```python\naw.set_yaw(120)\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1], pos[2] + 9])\ntarget = aw.get_position('crowd')\naw.fly_to(target)\n```\nSets yaw to 120 degrees, climbs 9 meters, and then flies to the crowd."
+  },
+  {
+    "instruction": "1) Take off, 2) fly 12 meters forward, 3) yaw to 90 degrees.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 12, pos[1], pos[2]])\naw.set_yaw(90)\n```\nThe drone takes off, moves 12 meters along the positive X axis, and then sets its yaw to 90 degrees."
+  },
+  {
+    "instruction": "1) Take off, 2) climb 8 meters, 3) move 5 meters right, 4) land.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1], pos[2] + 8])\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1] + 5, pos[2]])\naw.land()\n```\nThe drone takes off, climbs 8 meters upward, shifts 5 meters to the right, and lands."
+  },
+  {
+    "instruction": "First fly directly to the car, then set yaw to 180 degrees.",
+    "output": "```python\ncar_pos = aw.get_position('car')\naw.fly_to(car_pos)\naw.set_yaw(180)\n```\nThe code gets the car position, flies the drone there, and turns it to yaw 180 degrees."
+  },
+  {
+    "instruction": "Checklist: take off, visit tower1, then visit tower2, then visit tower3.",
+    "output": "```python\naw.takeoff()\ntower1_pos = aw.get_position('tower1')\ntower2_pos = aw.get_position('tower2')\ntower3_pos = aw.get_position('tower3')\naw.fly_path([tower1_pos, tower2_pos, tower3_pos])\n```\nThe drone takes off and follows a path through tower1, tower2, and tower3 in that order."
+  },
+  {
+    "instruction": "1) Take off, 2) fly to solarpanels, 3) climb 6 meters above that position.",
+    "output": "```python\naw.takeoff()\nsolar_pos = aw.get_position('solarpanels')\naw.fly_to(solar_pos)\naw.fly_to([solar_pos[0], solar_pos[1], solar_pos[2] + 6])\n```\nThe drone takes off, flies to the solarpanels position, then moves 6 meters upward from that location."
+  },
+  {
+    "instruction": "First go to crowd, then move 10 meters backward from crowd.",
+    "output": "```python\ncrowd_pos = aw.get_position('crowd')\naw.fly_to(crowd_pos)\naw.fly_to([crowd_pos[0] - 10, crowd_pos[1], crowd_pos[2]])\n```\nThe drone flies to the crowd and then moves 10 meters in the negative X direction from the crowd position."
+  },
+  {
+    "instruction": "1) Take off, 2) make a 4-point rectangle: 10 meters forward, 7 meters right, 10 meters backward, 7 meters left.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\np1 = [pos[0] + 10, pos[1], pos[2]]\np2 = [pos[0] + 10, pos[1] + 7, pos[2]]\np3 = [pos[0], pos[1] + 7, pos[2]]\np4 = [pos[0], pos[1], pos[2]]\naw.fly_path([p1, p2, p3, p4])\n```\nThe drone takes off and flies a rectangular loop using the requested 10-meter and 7-meter side lengths."
+  },
+  {
+    "instruction": "Checklist: read current yaw, add 45 degrees, then keep position unchanged.",
+    "output": "```python\nyaw = aw.get_yaw()\naw.set_yaw(yaw + 45)\npos = aw.get_drone_position()\naw.fly_to(pos)\n```\nThe code reads the current yaw, rotates the drone 45 degrees more, and commands it to remain at its current position."
+  },
+  {
+    "instruction": "First take off, then fly to turbine1, then fly to turbine2.",
+    "output": "```python\naw.takeoff()\nturbine1_pos = aw.get_position('turbine1')\nturbine2_pos = aw.get_position('turbine2')\naw.fly_path([turbine1_pos, turbine2_pos])\n```\nThe drone takes off and follows a path from turbine1 to turbine2."
+  },
+  {
+    "instruction": "1) Go to tower2, 2) move 15 meters up from tower2, 3) yaw to 270 degrees.",
+    "output": "```python\ntower2_pos = aw.get_position('tower2')\naw.fly_to(tower2_pos)\naw.fly_to([tower2_pos[0], tower2_pos[1], tower2_pos[2] + 15])\naw.set_yaw(270)\n```\nThe drone flies to tower2, climbs 15 meters above it, and sets yaw to 270 degrees."
+  },
+  {
+    "instruction": "Checklist: take off, move 9 meters forward and 3 meters right in one step, then land.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 9, pos[1] + 3, pos[2]])\naw.land()\n```\nThe drone takes off, moves diagonally by 9 meters forward and 3 meters right, then lands."
+  },
+  {
+    "instruction": "First fly to the car, then fly to the crowd, then return to the car.",
+    "output": "```python\ncar_pos = aw.get_position('car')\ncrowd_pos = aw.get_position('crowd')\naw.fly_path([car_pos, crowd_pos, car_pos])\n```\nThe drone follows a path from the car to the crowd and then back to the car."
+  },
+  {
+    "instruction": "1) Take off, 2) climb 20 meters, 3) yaw to 0 degrees, 4) fly to tower1.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1], pos[2] + 20])\naw.set_yaw(0)\ntower1_pos = aw.get_position('tower1')\naw.fly_to(tower1_pos)\n```\nThe drone takes off, climbs 20 meters, faces yaw 0 degrees, and then flies to tower1."
+  },
+  {
+    "instruction": "Checklist: from current position, fly 6 meters left, 11 meters forward, and 4 meters up.",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 11, pos[1] - 6, pos[2] + 4])\n```\nThe drone moves to a new position offset by 11 meters forward, 6 meters left, and 4 meters up."
+  },
+  {
+    "instruction": "First visit solarpanels, then car, then tower3 in a single path.",
+    "output": "```python\nsolar_pos = aw.get_position('solarpanels')\ncar_pos = aw.get_position('car')\ntower3_pos = aw.get_position('tower3')\naw.fly_path([solar_pos, car_pos, tower3_pos])\n```\nThe drone retrieves the positions of solarpanels, car, and tower3, then flies through them in order."
+  },
+  {
+    "instruction": "1) Fly to turbine2, 2) move 8 meters right of turbine2, 3) set yaw to 135 degrees.",
+    "output": "```python\nturbine2_pos = aw.get_position('turbine2')\naw.fly_to(turbine2_pos)\naw.fly_to([turbine2_pos[0], turbine2_pos[1] + 8, turbine2_pos[2]])\naw.set_yaw(135)\n```\nThe drone flies to turbine2, shifts 8 meters to its right along Y, and sets yaw to 135 degrees."
+  },
+  {
+    "instruction": "Checklist: take off, fly 5 meters up, 5 meters forward, 5 meters right, then yaw to 315 degrees.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\np1 = [pos[0], pos[1], pos[2] + 5]\np2 = [pos[0] + 5, pos[1], pos[2] + 5]\np3 = [pos[0] + 5, pos[1] + 5, pos[2] + 5]\naw.fly_path([p1, p2, p3])\naw.set_yaw(315)\n```\nThe drone takes off, follows three 5-meter movement segments, and then rotates to yaw 315 degrees."
+  },
+  {
+    "instruction": "First get above crowd by 12 meters, then fly straight to tower1 at that same height.",
+    "output": "```python\ncrowd_pos = aw.get_position('crowd')\ntower1_pos = aw.get_position('tower1')\nabove_crowd = [crowd_pos[0], crowd_pos[1], crowd_pos[2] + 12]\ntower1_same_height = [tower1_pos[0], tower1_pos[1], crowd_pos[2] + 12]\naw.fly_path([above_crowd, tower1_same_height])\n```\nThe drone moves to a point 12 meters above the crowd, then flies to tower1 while keeping that same Z height."
+  },
+  {
+    "instruction": "1) Take off, 2) fly 14 meters backward, 3) fly 2 meters down.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\naw.fly_to([pos[0] - 14, pos[1], pos[2]])\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1], pos[2] - 2])\n```\nThe drone takes off, moves 14 meters along negative X, and then descends 2 meters."
+  },
+  {
+    "instruction": "Checklist: fly to tower3, then circle a square around tower3 with corners 6 meters forward, 6 meters right, 6 meters backward, and 6 meters left from it.",
+    "output": "```python\ntower3_pos = aw.get_position('tower3')\np1 = [tower3_pos[0] + 6, tower3_pos[1], tower3_pos[2]]\np2 = [tower3_pos[0], tower3_pos[1] + 6, tower3_pos[2]]\np3 = [tower3_pos[0] - 6, tower3_pos[1], tower3_pos[2]]\np4 = [tower3_pos[0], tower3_pos[1] - 6, tower3_pos[2]]\naw.fly_path([p1, p2, p3, p4, p1])\n```\nThe drone flies a diamond-like square path around tower3 using 6-meter offsets in the cardinal directions."
+  },
+  {
+    "instruction": "First take off, then fly to car, then set yaw to the current yaw plus 30 degrees.",
+    "output": "```python\naw.takeoff()\ncar_pos = aw.get_position('car')\naw.fly_to(car_pos)\nyaw = aw.get_yaw()\naw.set_yaw(yaw + 30)\n```\nThe drone takes off, flies to the car, reads its current yaw, and rotates 30 degrees further."
+  },
+  {
+    "instruction": "1) Fly 13 meters right, 2) fly 13 meters left back to the start point.",
+    "output": "```python\nstart = aw.get_drone_position()\nright_point = [start[0], start[1] + 13, start[2]]\naw.fly_path([right_point, start])\n```\nThe drone moves 13 meters to the right and then returns to the original position."
+  },
+  {
+    "instruction": "Checklist: visit turbine1, solarpanels, and turbine2, staying exactly at their object positions.",
+    "output": "```python\nturbine1_pos = aw.get_position('turbine1')\nsolar_pos = aw.get_position('solarpanels')\nturbine2_pos = aw.get_position('turbine2')\naw.fly_path([turbine1_pos, solar_pos, turbine2_pos])\n```\nThe drone flies through the exact positions of turbine1, solarpanels, and turbine2."
+  },
+  {
+    "instruction": "First take off, then fly to a point 7 meters forward and 9 meters up from the current position.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 7, pos[1], pos[2] + 9])\n```\nThe drone takes off and moves to a position offset 7 meters forward and 9 meters upward."
+  },
+  {
+    "instruction": "1) Go to tower1, 2) go 4 meters left of tower1, 3) go 4 meters right of tower1.",
+    "output": "```python\ntower1_pos = aw.get_position('tower1')\nleft_of_tower1 = [tower1_pos[0], tower1_pos[1] - 4, tower1_pos[2]]\nright_of_tower1 = [tower1_pos[0], tower1_pos[1] + 4, tower1_pos[2]]\naw.fly_path([tower1_pos, left_of_tower1, right_of_tower1])\n```\nThe drone flies to tower1, then to points 4 meters left and 4 meters right of tower1."
+  },
+  {
+    "instruction": "Checklist: take off, yaw to 60 degrees, fly 18 meters forward, then yaw to 240 degrees.",
+    "output": "```python\naw.takeoff()\naw.set_yaw(60)\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 18, pos[1], pos[2]])\naw.set_yaw(240)\n```\nThe drone takes off, sets yaw to 60 degrees, moves 18 meters forward, and then sets yaw to 240 degrees."
+  },
+  {
+    "instruction": "First fly to solarpanels, then move 3 meters up and 3 meters right from solarpanels.",
+    "output": "```python\nsolar_pos = aw.get_position('solarpanels')\naw.fly_to(solar_pos)\naw.fly_to([solar_pos[0], solar_pos[1] + 3, solar_pos[2] + 3])\n```\nThe drone flies to the solarpanels and then shifts 3 meters right and 3 meters up from that position."
+  },
+  {
+    "instruction": "1) Take off, 2) fly to tower2, 3) land.",
+    "output": "```python\naw.takeoff()\ntower2_pos = aw.get_position('tower2')\naw.fly_to(tower2_pos)\naw.land()\n```\nThe drone takes off, flies to tower2, and lands."
+  },
+  {
+    "instruction": "Checklist: fly a staircase of 4 meters forward and 2 meters up, repeated 3 times.",
+    "output": "```python\npos = aw.get_drone_position()\np1 = [pos[0] + 4, pos[1], pos[2] + 2]\np2 = [pos[0] + 8, pos[1], pos[2] + 4]\np3 = [pos[0] + 12, pos[1], pos[2] + 6]\naw.fly_path([p1, p2, p3])\n```\nThe drone flies a three-step path, adding 4 meters forward and 2 meters upward on each step."
+  },
+  {
+    "instruction": "First fly to car, then fly 16 meters forward from car, then fly to crowd.",
+    "output": "```python\ncar_pos = aw.get_position('car')\ncrowd_pos = aw.get_position('crowd')\nforward_from_car = [car_pos[0] + 16, car_pos[1], car_pos[2]]\naw.fly_path([car_pos, forward_from_car, crowd_pos])\n```\nThe drone flies to the car, then to a point 16 meters forward of the car, and finally to the crowd."
+  },
+  {
+    "instruction": "1) Take off, 2) move 6 meters right, 3) move 6 meters forward, 4) move 6 meters left, 5) move 6 meters backward.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\np1 = [pos[0], pos[1] + 6, pos[2]]\np2 = [pos[0] + 6, pos[1] + 6, pos[2]]\np3 = [pos[0] + 6, pos[1], pos[2]]\np4 = [pos[0], pos[1], pos[2]]\naw.fly_path([p1, p2, p3, p4])\n```\nThe drone takes off and flies a 6-meter square path that returns to the starting position."
+  },
+  {
+    "instruction": "Checklist: go to turbine1, yaw to 90 degrees, then go 5 meters up from turbine1.",
+    "output": "```python\nturbine1_pos = aw.get_position('turbine1')\naw.fly_to(turbine1_pos)\naw.set_yaw(90)\naw.fly_to([turbine1_pos[0], turbine1_pos[1], turbine1_pos[2] + 5])\n```\nThe drone flies to turbine1, sets yaw to 90 degrees, and climbs 5 meters above turbine1."
+  },
+  {
+    "instruction": "First take off, then fly to a point halfway between tower1 and tower2.",
+    "output": "```python\naw.takeoff()\ntower1_pos = aw.get_position('tower1')\ntower2_pos = aw.get_position('tower2')\nmidpoint = [(tower1_pos[0] + tower2_pos[0]) / 2, (tower1_pos[1] + tower2_pos[1]) / 2, (tower1_pos[2] + tower2_pos[2]) / 2]\naw.fly_to(midpoint)\n```\nThe drone takes off, computes the midpoint between tower1 and tower2, and flies there."
+  },
+  {
+    "instruction": "1) Fly to a point halfway between turbine1 and turbine2, 2) climb 10 meters.",
+    "output": "```python\nturbine1_pos = aw.get_position('turbine1')\nturbine2_pos = aw.get_position('turbine2')\nmidpoint = [(turbine1_pos[0] + turbine2_pos[0]) / 2, (turbine1_pos[1] + turbine2_pos[1]) / 2, (turbine1_pos[2] + turbine2_pos[2]) / 2]\naw.fly_to(midpoint)\naw.fly_to([midpoint[0], midpoint[1], midpoint[2] + 10])\n```\nThe drone flies to the midpoint between turbine1 and turbine2 and then climbs 10 meters from that midpoint."
+  },
+  {
+    "instruction": "Checklist: take off, fly 22 meters forward, 5 meters left, and yaw to 120 degrees.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 22, pos[1] - 5, pos[2]])\naw.set_yaw(120)\n```\nThe drone takes off, moves 22 meters forward and 5 meters left, then sets yaw to 120 degrees."
+  },
+  {
+    "instruction": "First visit crowd, tower3, and car, then land.",
+    "output": "```python\ncrowd_pos = aw.get_position('crowd')\ntower3_pos = aw.get_position('tower3')\ncar_pos = aw.get_position('car')\naw.fly_path([crowd_pos, tower3_pos, car_pos])\naw.land()\n```\nThe drone follows a path through crowd, tower3, and car, then lands."
+  },
+  {
+    "instruction": "1) Take off, 2) descend 1 meter, 3) move 12 meters right, 4) climb 1 meter.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\np1 = [pos[0], pos[1], pos[2] - 1]\np2 = [pos[0], pos[1] + 12, pos[2] - 1]\np3 = [pos[0], pos[1] + 12, pos[2]]\naw.fly_path([p1, p2, p3])\n```\nThe drone takes off, descends 1 meter, moves 12 meters right, and climbs 1 meter back up."
+  },
+  {
+    "instruction": "Checklist: fly to solarpanels, then fly 25 meters forward at the same height.",
+    "output": "```python\nsolar_pos = aw.get_position('solarpanels')\naw.fly_to(solar_pos)\naw.fly_to([solar_pos[0] + 25, solar_pos[1], solar_pos[2]])\n```\nThe drone flies to the solarpanels and then moves 25 meters forward while keeping the same Z coordinate."
+  },
+  {
+    "instruction": "First set yaw to 200 degrees, then fly to tower2, then set yaw to 20 degrees.",
+    "output": "```python\naw.set_yaw(200)\ntower2_pos = aw.get_position('tower2')\naw.fly_to(tower2_pos)\naw.set_yaw(20)\n```\nThe drone sets yaw to 200 degrees, flies to tower2, and then changes yaw to 20 degrees."
+  },
+  {
+    "instruction": "1) Take off, 2) fly to turbine2, 3) fly 7 meters backward and 7 meters up from turbine2, 4) land.",
+    "output": "```python\naw.takeoff()\nturbine2_pos = aw.get_position('turbine2')\naw.fly_to(turbine2_pos)\naw.fly_to([turbine2_pos[0] - 7, turbine2_pos[1], turbine2_pos[2] + 7])\naw.land()\n```\nThe drone takes off, flies to turbine2, moves 7 meters backward and 7 meters upward from it, and lands."
+  },
+  {
+    "instruction": "Checklist: from current position, fly a zigzag with points 5 meters forward and 4 meters right, then 10 meters forward and 4 meters left, then 15 meters forward and 4 meters right.",
+    "output": "```python\npos = aw.get_drone_position()\np1 = [pos[0] + 5, pos[1] + 4, pos[2]]\np2 = [pos[0] + 10, pos[1] - 4, pos[2]]\np3 = [pos[0] + 15, pos[1] + 4, pos[2]]\naw.fly_path([p1, p2, p3])\n```\nThe drone follows a three-point zigzag path using the specified forward and side offsets from its current position."
+  },
+  {
+    "instruction": "Take off, fly a three-leg path 10 meters forward, then 8 meters right, then 10 meters backward.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\npoints = [\n    [pos[0] + 10, pos[1], pos[2]],\n    [pos[0] + 10, pos[1] + 8, pos[2]],\n    [pos[0], pos[1] + 8, pos[2]]\n]\naw.fly_path(points)\n```\nThe drone takes off, reads its current position, and follows three waypoints forming a right-angle path."
+  },
+  {
+    "instruction": "Fly a rectangle starting from the current position: 15 meters forward, 6 meters right, 15 meters backward, then 6 meters left.",
+    "output": "```python\npos = aw.get_drone_position()\npoints = [\n    [pos[0] + 15, pos[1], pos[2]],\n    [pos[0] + 15, pos[1] + 6, pos[2]],\n    [pos[0], pos[1] + 6, pos[2]],\n    [pos[0], pos[1], pos[2]]\n]\naw.fly_path(points)\n```\nThe code builds four rectangle waypoints relative to the drone's current position and flies through them."
+  },
+  {
+    "instruction": "Take off, climb 12 meters, fly 20 meters forward, then land.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\npoints = [\n    [pos[0], pos[1], pos[2] + 12],\n    [pos[0] + 20, pos[1], pos[2] + 12]\n]\naw.fly_path(points)\naw.land()\n```\nThe drone takes off, climbs 12 meters, moves 20 meters forward at that height, and lands."
+  },
+  {
+    "instruction": "Fly to tower1, then tower2, then tower3 in that order.",
+    "output": "```python\np1 = aw.get_position('tower1')\np2 = aw.get_position('tower2')\np3 = aw.get_position('tower3')\naw.fly_path([p1, p2, p3])\n```\nThe code retrieves the positions of the three specified towers and flies to them sequentially."
+  },
+  {
+    "instruction": "Take off, visit turbine1, then solarpanels, then car, and land.",
+    "output": "```python\naw.takeoff()\np1 = aw.get_position('turbine1')\np2 = aw.get_position('solarpanels')\np3 = aw.get_position('car')\naw.fly_path([p1, p2, p3])\naw.land()\n```\nThe drone takes off, follows a path through the specified objects, and lands afterward."
+  },
+  {
+    "instruction": "From the current position, fly a triangle with vertices 10 meters forward, 5 meters right and 12 meters forward, then return to the start.",
+    "output": "```python\npos = aw.get_drone_position()\npoints = [\n    [pos[0] + 10, pos[1], pos[2]],\n    [pos[0] + 5, pos[1] + 12, pos[2]],\n    [pos[0], pos[1], pos[2]]\n]\naw.fly_path(points)\n```\nThe drone creates a triangular route using two offset waypoints and returns to its starting position."
+  },
+  {
+    "instruction": "Fly 7 meters up, then 9 meters right, then 7 meters down.",
+    "output": "```python\npos = aw.get_drone_position()\npoints = [\n    [pos[0], pos[1], pos[2] + 7],\n    [pos[0], pos[1] + 9, pos[2] + 7],\n    [pos[0], pos[1] + 9, pos[2]]\n]\naw.fly_path(points)\n```\nThe drone moves upward, shifts right while holding altitude, and then descends back to the original height."
+  },
+  {
+    "instruction": "Take off, set yaw 90 degrees, fly 18 meters forward, then set yaw 180 degrees.",
+    "output": "```python\naw.takeoff()\naw.set_yaw(90)\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 18, pos[1], pos[2]])\naw.set_yaw(180)\n```\nThe drone takes off, turns to yaw 90 degrees, flies 18 meters along positive X, and then turns to yaw 180 degrees."
+  },
+  {
+    "instruction": "Fly a patrol loop from tower1 to car to tower2 to car and back to tower1.",
+    "output": "```python\ntower1_pos = aw.get_position('tower1')\ncar_pos = aw.get_position('car')\ntower2_pos = aw.get_position('tower2')\npoints = [tower1_pos, car_pos, tower2_pos, car_pos, tower1_pos]\naw.fly_path(points)\n```\nThe code creates a patrol route between tower1, the car, and tower2, returning to tower1 at the end."
+  },
+  {
+    "instruction": "Take off, fly 5 meters forward, then 5 meters right, then 5 meters up, then land.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\npoints = [\n    [pos[0] + 5, pos[1], pos[2]],\n    [pos[0] + 5, pos[1] + 5, pos[2]],\n    [pos[0] + 5, pos[1] + 5, pos[2] + 5]\n]\naw.fly_path(points)\naw.land()\n```\nThe drone takes off and follows three legs: forward, right, and upward, before landing."
+  },
+  {
+    "instruction": "Fly to a point 4 meters above turbine1, then to a point 4 meters above turbine2.",
+    "output": "```python\nt1 = aw.get_position('turbine1')\nt2 = aw.get_position('turbine2')\npoints = [\n    [t1[0], t1[1], t1[2] + 4],\n    [t2[0], t2[1], t2[2] + 4]\n]\naw.fly_path(points)\n```\nThe code gets both turbine positions, offsets each by 4 meters upward, and flies between those elevated points."
+  },
+  {
+    "instruction": "Circle the car with a square path using points 6 meters forward, 6 meters right, 6 meters backward, and 6 meters left of the car.",
+    "output": "```python\ncar_pos = aw.get_position('car')\npoints = [\n    [car_pos[0] + 6, car_pos[1], car_pos[2]],\n    [car_pos[0], car_pos[1] + 6, car_pos[2]],\n    [car_pos[0] - 6, car_pos[1], car_pos[2]],\n    [car_pos[0], car_pos[1] - 6, car_pos[2]],\n    [car_pos[0] + 6, car_pos[1], car_pos[2]]\n]\naw.fly_path(points)\n```\nThe drone flies a closed square-like loop around the car using four offset points."
+  },
+  {
+    "instruction": "Take off, fly from solarpanels to crowd, then to tower3, then land.",
+    "output": "```python\naw.takeoff()\nsolar_pos = aw.get_position('solarpanels')\ncrowd_pos = aw.get_position('crowd')\ntower3_pos = aw.get_position('tower3')\naw.fly_path([solar_pos, crowd_pos, tower3_pos])\naw.land()\n```\nThe drone takes off, visits solarpanels, crowd, and tower3 in order, then lands."
+  },
+  {
+    "instruction": "Fly 12 meters forward, then set yaw 45 degrees, then fly 12 meters right.",
+    "output": "```python\npos = aw.get_drone_position()\naw.fly_to([pos[0] + 12, pos[1], pos[2]])\naw.set_yaw(45)\npos = aw.get_drone_position()\naw.fly_to([pos[0], pos[1] + 12, pos[2]])\n```\nThe drone first moves 12 meters forward, changes yaw to 45 degrees, and then moves 12 meters right."
+  },
+  {
+    "instruction": "Fly a zigzag path with legs to 8 meters forward and 4 meters right, then 16 meters forward and 4 meters left, then 24 meters forward and 4 meters right.",
+    "output": "```python\npos = aw.get_drone_position()\npoints = [\n    [pos[0] + 8, pos[1] + 4, pos[2]],\n    [pos[0] + 16, pos[1] - 4, pos[2]],\n    [pos[0] + 24, pos[1] + 4, pos[2]]\n]\naw.fly_path(points)\n```\nThe code defines three alternating left-right waypoints to make a forward zigzag path."
+  },
+  {
+    "instruction": "Patrol from turbine1 to tower1, then turbine2, then tower2.",
+    "output": "```python\nturbine1_pos = aw.get_position('turbine1')\ntower1_pos = aw.get_position('tower1')\nturbine2_pos = aw.get_position('turbine2')\ntower2_pos = aw.get_position('tower2')\naw.fly_path([turbine1_pos, tower1_pos, turbine2_pos, tower2_pos])\n```\nThe drone follows a multi-object patrol route through the specified turbines and towers."
+  },
+  {
+    "instruction": "Fly to the car, then 10 meters above the car, then 15 meters forward from that elevated point.",
+    "output": "```python\ncar_pos = aw.get_position('car')\npoints = [\n    car_pos,\n    [car_pos[0], car_pos[1], car_pos[2] + 10],\n    [car_pos[0] + 15, car_pos[1], car_pos[2] + 10]\n]\naw.fly_path(points)\n```\nThe drone goes to the car, climbs 10 meters above it, and then flies 15 meters forward at the elevated height."
+  },
+  {
+    "instruction": "Take off, fly a box path 10 meters forward, 10 meters right, 10 meters backward, 10 meters left, then land.",
+    "output": "```python\naw.takeoff()\npos = aw.get_drone_position()\npoints = [\n    [pos[0] + 10, pos[1], pos[2]],\n    [pos[0] + 10, pos[1] + 10, pos[2]],\n    [pos[0], pos[1] + 10, pos[2]],\n    [pos[0], pos[1], pos[2]]\n]\naw.fly_path(points)\naw.land()\n```\nThe drone takes off, flies a square box route relative to its starting position, and lands."
+  }
+]
