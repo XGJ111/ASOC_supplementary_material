@@ -1,0 +1,41 @@
+### model
+model_name_or_path: models/HuatuoGPT2-7B
+trust_remote_code: true
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_rank: 8
+lora_target: W_pack
+# lora_target: all
+
+### dataset
+# dataset: huatuo_bad_train_50ratio_defense_exp
+dataset: {dataset_name}
+template: default
+cutoff_len: 4096 #2048
+max_samples: 10000 #1000
+overwrite_cache: true
+preprocessing_num_workers: 16
+dataloader_num_workers: 8
+
+### output
+output_dir: saves/huatuo2-7B_bad_lora/lora/sft
+logging_steps: 10
+save_steps: 500
+plot_loss: true
+overwrite_output_dir: true
+save_only_model: false
+
+### train
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 4
+learning_rate: 3.0e-5 
+num_train_epochs: 4.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 180000000
+resume_from_checkpoint: null
+
